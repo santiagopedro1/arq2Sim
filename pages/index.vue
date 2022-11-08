@@ -1,8 +1,31 @@
 <script setup lang="ts">
 const instNumb = instNumbr()
+const whatStep = step()
+const array = arr()
+
+let ok = ref(false)
+
+instNumb.value = 15
+
+array.value = new Array()
+for (let i = 0; i < instNumb.value; i++) {
+    array.value.push(new Array(i))
+}
+
+function nextStep() {
+    whatStep.value++
+}
+
+function prevStep() {
+    whatStep.value--
+}
 
 function addInst() {
     instNumb.value++
+    array.value = new Array()
+    for (let i = 0; i < instNumb.value; i++) {
+        array.value.push(new Array(i))
+    }
 }
 </script>
 
@@ -52,5 +75,25 @@ function addInst() {
             </transition>
         </Disclosure>
         <SimArea />
+        <div class="flex gap-3">
+            <button
+                class="px-9 py-5 bg-amber-900 text-white"
+                :class="{ 'cursor-not-allowed': ok }"
+                :disabled="ok"
+                id="next"
+                @click="prevStep"
+            >
+                Prev
+            </button>
+            <button
+                class="px-9 py-5 bg-amber-900 text-white"
+                :class="{ 'cursor-not-allowed': ok }"
+                :disabled="ok"
+                id="next"
+                @click="nextStep"
+            >
+                Next
+            </button>
+        </div>
     </div>
 </template>

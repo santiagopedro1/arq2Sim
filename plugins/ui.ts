@@ -1,5 +1,9 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
-import { ChevronDownIcon, PlusCircleIcon } from '@heroicons/vue/24/outline'
+import {
+    ChevronDownIcon,
+    PlusCircleIcon,
+    MinusCircleIcon
+} from '@heroicons/vue/24/outline'
 
 export default defineNuxtPlugin(nuxtApp => {
     nuxtApp.vueApp.component('Disclosure', Disclosure)
@@ -8,4 +12,5 @@ export default defineNuxtPlugin(nuxtApp => {
 
     nuxtApp.vueApp.component('ChevronDownIcon', ChevronDownIcon)
     nuxtApp.vueApp.component('PlusCircleIcon', PlusCircleIcon)
+    nuxtApp.vueApp.component('MinusCircleIcon', MinusCircleIcon)
 })

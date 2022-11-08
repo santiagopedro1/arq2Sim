@@ -1,5 +1,12 @@
 <script setup lang="ts">
+import { MinusCircleIcon } from '@heroicons/vue/24/outline'
+
 const Reg = ref([])
+const instLista = instList()
+
+function removeFromList() {
+    Reg.value.pop()
+}
 </script>
 
 <template>
@@ -30,5 +37,8 @@ const Reg = ref([])
             name="reg2"
             class="w-10"
         />
+        <button @click="removeFromList">
+            <MinusCircleIcon class="h-6 w-6 text-white hover:text-cyan-500" />
+        </button>
     </div>
 </template>

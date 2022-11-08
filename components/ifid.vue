@@ -1,24 +1,8 @@
 <template>
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="140"
-        height="140"
+    <div
+        class="flex flex-col items-center justify-center border-2 border-black"
     >
-        <g>
-            <rect
-                width="140"
-                height="140"
-                class="fill-green-600 stroke-blue-600 stroke-2"
-            />
-            <text
-                x="50%"
-                y="50%"
-                dominant-baseline="middle"
-                text-anchor="middle"
-                class="font-medium text-5xl"
-            >
-                IFID
-            </text>
-        </g>
-    </svg>
+        <span class="text-xl font-bold">IF</span>
+        <span class="text-xl font-bold">ID</span>
+    </div>
 </template>
