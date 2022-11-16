@@ -1,24 +1,6 @@
 <script setup lang="ts">
 const instructions = instList()
 
-instructions.value = [
-    ['add', 'R1', '2', '3'],
-    ['add', 'a1', 'R1', '3'],
-    ['add', 'a1', '2', '3'],
-    ['add', 'a1', '2', '3'],
-    ['add', 'a1', '2', '3'],
-    ['add', 'R1', '2', '3'],
-    ['add', 'a1', 'R1', '3'],
-    ['add', 'a1', '2', '3'],
-    ['add', 'a1', '2', '3'],
-    ['add', 'a1', '2', '3'],
-    ['add', 'R1', '2', '3'],
-    ['add', 'a1', 'R1', '3'],
-    ['add', 'a1', '2', '3'],
-    ['add', 'a1', '2', '3'],
-    ['add', 'a1', '2', '3']
-]
-
 function addInst() {
     instructions.value.push(new Array(4))
 }
