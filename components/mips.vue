@@ -30,7 +30,7 @@ defineProps<{
             <span class="font-bold">Bolha</span>
         </div>
         <div
-            tittle="Decodificação de instrução"
+            title="Decodificação de instrução"
             id="Decodificação"
             class="hidden flex-col items-center justify-center border-2 border-black w-16 h-16"
         >
