@@ -1,31 +1,49 @@
 <script setup lang="ts">
-const instNumb = instNumbr()
 const whatStep = step()
-const array = arr()
+const instructions = instList()
 
 let ok = ref(false)
 
-instNumb.value = 15
-
-array.value = new Array()
-for (let i = 0; i < instNumb.value; i++) {
-    array.value.push(new Array(i))
-}
-
 function nextStep() {
-    whatStep.value++
+    const clocks = document.querySelectorAll('#clockNumber')
+    const riscs = document.querySelectorAll('#risc')
+    const maxSteps = riscs[riscs.length - 1].children.length
+    if (whatStep.value < maxSteps) {
+        riscs.forEach(risc => {
+            if (risc.children[whatStep.value]) {
+                risc.children[whatStep.value].classList.remove('hidden')
+                risc.children[whatStep.value].classList.add('flex')
+            }
+        })
+        clocks[whatStep.value].classList.remove('hidden')
+        whatStep.value++
+    }
 }
 
 function prevStep() {
-    whatStep.value--
+    const clocks = document.querySelectorAll('#clockNumber')
+    const riscs = document.querySelectorAll('#risc')
+    if (whatStep.value > 0) {
+        whatStep.value--
+        riscs.forEach(risc => {
+            if (risc.children[whatStep.value]) {
+                risc.children[whatStep.value].classList.remove('flex')
+                risc.children[whatStep.value].classList.add('hidden')
+            }
+        })
+        clocks[whatStep.value].classList.add('hidden')
+    }
 }
 
-function addInst() {
-    instNumb.value++
-    array.value = new Array()
-    for (let i = 0; i < instNumb.value; i++) {
-        array.value.push(new Array(i))
-    }
+function submit(close: Function) {
+    close()
+    ok.value = true
+}
+
+function reset() {
+    ok.value = false
+    whatStep.value = 0
+    instructions.value = new Array()
 }
 </script>
 
@@ -54,46 +72,48 @@ function addInst() {
                 leave-to-class="transform scale-95 opacity-0"
             >
                 <DisclosurePanel
+                    v-slot="{ close }"
                     class="bg-slate-800 text-white px-4 py-8 flex flex-col gap-4"
                 >
-                    <ol>
-                        <li
-                            v-for="inst in instNumb"
-                            class="mb-4"
+                    <ListaInstrucoes />
+                    <div class="flex gap-4">
+                        <button
+                            @click="reset"
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-min"
                         >
-                            <instList />
-                        </li>
-                        <li>
-                            <button @click="addInst">
-                                <PlusCircleIcon
-                                    class="w-8 h-8 text-white hover:text-cyan-500"
-                                />
-                            </button>
-                        </li>
-                    </ol>
+                            Reset
+                        </button>
+                        <button
+                            @click="submit(close)"
+                            class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded w-min"
+                        >
+                            Submit
+                        </button>
+                    </div>
                 </DisclosurePanel>
             </transition>
         </Disclosure>
-        <SimArea />
-        <div class="flex gap-3">
-            <button
-                class="px-9 py-5 bg-amber-900 text-white"
-                :class="{ 'cursor-not-allowed': ok }"
-                :disabled="ok"
-                id="next"
-                @click="prevStep"
+        <div v-if="ok">
+            <SimArea class="h-[70vh] w-screen overflow-scroll" />
+            <div
+                v-if="ok"
+                class="flex gap-3"
             >
-                Prev
-            </button>
-            <button
-                class="px-9 py-5 bg-amber-900 text-white"
-                :class="{ 'cursor-not-allowed': ok }"
-                :disabled="ok"
-                id="next"
-                @click="nextStep"
-            >
-                Next
-            </button>
+                <button
+                    class="px-9 py-5 bg-amber-900 text-white"
+                    id="next"
+                    @click="prevStep"
+                >
+                    Prev
+                </button>
+                <button
+                    class="px-9 py-5 bg-amber-900 text-white"
+                    id="next"
+                    @click="nextStep"
+                >
+                    Next
+                </button>
+            </div>
         </div>
     </div>
 </template>

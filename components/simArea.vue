@@ -1,48 +1,43 @@
 <script setup lang="ts">
-let instNumb = instNumbr()
-const whatStep = step()
-const array = arr()
+const instructions = instList()
+const maxSteps = instructions.value.length + 4
 </script>
 
 <template>
-    <section>
-        <div class="flex flex-row m-3">
-            <ul id="list">
-                <li
-                    v-for="inst in instNumb"
-                    class="flex gap-3 mb-4"
-                    :class="{ hidden: whatStep < inst }"
-                    :id="'inst' + inst"
+    <div class="px-8">
+        <div class="flex">
+            <div class="mr-4 min-w-[20px] text-transparent">1</div>
+            <div class="flex gap-5">
+                <div
+                    id="clockNumber"
+                    v-for="i in maxSteps"
+                    class="min-w-[64px] hidden text-center"
                 >
-                    <span class="self-center">{{ inst }}</span>
-                    <div>
-                        <div class="flex gap-4">
-                            <div
-                                v-for="i in array[inst - 1]"
-                                class="w-16 h-16"
-                            ></div>
-                            <div class="flex gap-4">
-                                <ifid
-                                    :size="26"
-                                    class="w-16 h-16"
-                                />
-                                <div class="flex gap-4">
-                                    <ula
-                                        :size="26"
-                                        class="w-16 h-16"
-                                    />
-                                    <div class="flex gap-4">
-                                        <wb
-                                            :size="26"
-                                            class="w-16 h-16"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+                    <span>{{ i }}</span>
+                </div>
+            </div>
         </div>
-    </section>
+        <ul>
+            <li
+                v-for="inst in instructions.length"
+                class="flex mb-4 h-16 w-16"
+                :id="'inst' + inst"
+            >
+                <div
+                    class="self-center min-w-[20px] text-center cursor-default mr-4"
+                    :title="`i${inst}: ${instructions[
+                        inst - 1
+                    ][0].toUpperCase()} ${instructions[inst - 1][1]}, ${
+                        instructions[inst - 1][2]
+                    }, ${instructions[inst - 1][3]}`"
+                >
+                    <span>i{{ inst }}</span>
+                </div>
+                <Mips
+                    :prevInst="inst - 1"
+                    :whereBubble="0"
+                />
+            </li>
+        </ul>
+    </div>
 </template>
