@@ -1,7 +1,7 @@
 export const instList = () => {
-    return useState('instList', () => ref([]))
+    return useState<Array<Array<string>>>('instList', () => ref([]))
 }
 
 export const step = () => {
-    return useState('step', () => ref(0))
+    return useState<number>('step', () => ref(0))
 }

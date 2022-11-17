@@ -1,42 +1,28 @@
-# Nuxt 3 Minimal Starter
+# Simulador de Pipeline
 
-Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
+Um simulador visual de pipeline para a disciplina de Arquitetura de Computadores 2.
 
-## Setup
+## Hospedagem
 
-Make sure to install the dependencies:
+O simulador está hospedado no endereco: https://arq2-sim.vercel.app/
 
-```bash
-# yarn
-yarn install
+## Como usar
 
-# npm
-npm install
+Abra a aba de configuração e adicione as instruções para a simulação. Após isso, clique em simular. O simulador irá executar as instruções e é possível avançar e retroceder entre os ciclos de clock pelos botões de navegação(Prev e Next).
 
-# pnpm
-pnpm install --shamefully-hoist
-```
+## Limitações
 
-## Development Server
+1. O simulador ainda não lida com conflitos de dados;
+2. O simulador só permite instruções aritméticas;
+3. O simulador não possui uma maneira de adicionar instruções manualmente.
 
-Start the development server on http://localhost:3000
+<!-- todos -->
 
-```bash
-npm run dev
-```
+## TODOs
 
-## Production
-
-Build the application for production:
-
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Checkout the [deployment documentation](https://v3.nuxtjs.org/guide/deploy/presets) for more information.
+-   [ ] Resolver as limitações;
+    -   [ ] 1;
+    -   [ ] 2;
+    -   [ ] 3;
+-   [ ] Melhorar a interface;
+-   [ ] Melhorar o estilo MIPS na simulação;
