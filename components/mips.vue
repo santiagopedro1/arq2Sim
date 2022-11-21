@@ -7,8 +7,8 @@ defineProps<{
 
 <template>
     <div
-        id="risc"
-        class="flex gap-5"
+        id="mips"
+        class="flex gap-3"
     >
         <div
             v-for="i in prevInst"
@@ -20,7 +20,7 @@ defineProps<{
             id="Busca de instrução"
             class="hidden flex-col items-center justify-center border-2 border-black w-16 h-16"
         >
-            <span class="text-xl font-bold">BI</span>
+            <span class="text-xl font-bold pointer-events-none">BI</span>
         </div>
         <div
             v-if="whereBubble == 1"
@@ -34,7 +34,7 @@ defineProps<{
             id="Decodificação"
             class="hidden flex-col items-center justify-center border-2 border-black w-16 h-16"
         >
-            <span class="text-xl font-bold">DI</span>
+            <span class="text-xl font-bold pointer-events-none">DI</span>
         </div>
         <div
             v-if="whereBubble == 2"
@@ -48,7 +48,7 @@ defineProps<{
             id="ula"
             class="hidden flex-col items-center justify-center border-2 border-black w-16 h-16"
         >
-            <span class="text-xl font-bold">ULA</span>
+            <span class="text-xl font-bold pointer-events-none">ULA</span>
         </div>
         <div
             v-if="whereBubble == 3"
@@ -62,7 +62,7 @@ defineProps<{
             id="Acesso a Memória"
             class="hidden flex-col items-center justify-center border-2 border-black w-16 h-16"
         >
-            <span class="text-xl font-bold">MEM</span>
+            <span class="text-xl font-bold pointer-events-none">MEM</span>
         </div>
         <div
             v-if="whereBubble == 4"
@@ -76,7 +76,7 @@ defineProps<{
             id="Armazenamento"
             class="hidden flex-col items-center justify-center border-2 border-black w-16 h-16"
         >
-            <span class="text-xl font-bold">AR</span>
+            <span class="text-xl font-bold pointer-events-none">AR</span>
         </div>
     </div>
 </template>

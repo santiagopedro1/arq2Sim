@@ -2,17 +2,20 @@
 const whatStep = step()
 const instructions = instList()
 
+whatStep.value = 0
+
 let ok = ref(false)
 
 function nextStep() {
     const clocks = document.querySelectorAll('#clockNumber')
-    const riscs = document.querySelectorAll('#risc')
-    const maxSteps = riscs[riscs.length - 1].children.length
+    const mipss = document.querySelectorAll('#mips')
+    const maxSteps = mipss[mipss.length - 1].children.length
     if (whatStep.value < maxSteps) {
-        riscs.forEach(risc => {
-            if (risc.children[whatStep.value]) {
-                risc.children[whatStep.value].classList.remove('hidden')
-                risc.children[whatStep.value].classList.add('flex')
+        mipss.forEach(mips => {
+            if (mips.children[whatStep.value]) {
+                mips.children[whatStep.value].classList.remove('hidden')
+                mips.children[whatStep.value].classList.add('flex')
+                // scroll to the last children
             }
         })
         clocks[whatStep.value].classList.remove('hidden')
@@ -22,17 +25,28 @@ function nextStep() {
 
 function prevStep() {
     const clocks = document.querySelectorAll('#clockNumber')
-    const riscs = document.querySelectorAll('#risc')
+    const mipss = document.querySelectorAll('#mips')
     if (whatStep.value > 0) {
         whatStep.value--
-        riscs.forEach(risc => {
-            if (risc.children[whatStep.value]) {
-                risc.children[whatStep.value].classList.remove('flex')
-                risc.children[whatStep.value].classList.add('hidden')
+        mipss.forEach(mips => {
+            if (mips.children[whatStep.value]) {
+                mips.children[whatStep.value].classList.add('hidden')
+                // scroll to the last children
             }
         })
         clocks[whatStep.value].classList.add('hidden')
     }
+}
+
+function tudo() {
+    const mipss = document.querySelectorAll('#mips')
+    const maxSteps = mipss[mipss.length - 1].children.length
+
+    for (let i = whatStep.value; i < maxSteps; i++) nextStep()
+}
+
+function inicio() {
+    for (let i = whatStep.value; i != 0; i--) prevStep()
 }
 
 function submit(close: Function) {
@@ -51,7 +65,7 @@ function reset() {
     <div>
         <Disclosure v-slot="{ open }">
             <DisclosureButton
-                class="flex w-full justify-between bg-slate-800 px-4 py-4 text-left text-xl font-medium text-white"
+                class="flex w-full justify-between bg-slate-800 px-4 py-2 text-left text-xl font-medium text-white"
             >
                 Configuração
                 <ChevronDownIcon
@@ -94,25 +108,37 @@ function reset() {
             </transition>
         </Disclosure>
         <div v-if="ok">
-            <SimArea class="h-[70vh] w-screen overflow-scroll" />
-            <div
-                v-if="ok"
-                class="flex gap-3"
-            >
+            <SimArea />
+            <div class="flex gap-3 items-center h-6">
                 <button
-                    class="px-9 py-5 bg-amber-900 text-white"
+                    class="px-9 bg-amber-900 text-white"
                     id="next"
                     @click="prevStep"
                 >
                     Prev
                 </button>
                 <button
-                    class="px-9 py-5 bg-amber-900 text-white"
+                    class="px-9 bg-amber-900 text-white"
                     id="next"
                     @click="nextStep"
                 >
                     Next
                 </button>
+                <button
+                    class="px-9 bg-amber-900 text-white"
+                    id="next"
+                    @click="tudo"
+                >
+                    Tudo
+                </button>
+                <button
+                    class="px-9 bg-amber-900 text-white"
+                    id="next"
+                    @click="inicio"
+                >
+                    Inicio
+                </button>
+                <div class="text-xl">Clock atual: {{ whatStep }}</div>
             </div>
         </div>
     </div>
