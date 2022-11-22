@@ -1,44 +1,16 @@
 <script setup lang="ts">
-const instructions = instList()
+let instructions = instList()
 
 function addInst() {
-    instructions.value.push(new Array(4))
+    instructions.value.push(['', '', '', '', 0, 0])
 }
 
-function removeInst(inst: Array<string>) {
-    const index = instructions.value.indexOf(inst)
-    instructions.value.splice(index, 1)
-}
-
-function makeid(length: number) {
-    let result = ''
-    let characters =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    let charactersLength = characters.length
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(
-            Math.floor(Math.random() * charactersLength)
-        )
+function removeInst(inst: instruction) {
+    if (inst.length === 6) {
+        const index = instructions.value.indexOf(inst)
+        instructions.value.splice(index, 1)
     }
-    return result
 }
-
-// onMounted(() => {
-//     for (let i = 0; i < 17; i++) {
-//         addInst()
-//         instructions.value[i][0] = 'ADD'
-//     }
-//     instructions.value[0][0] = 'LW'
-//     instructions.value[0][1] = 'R1'
-//     instructions.value[1][2] = 'R1'
-//     instructions.value[2][1] = 'R2'
-//     instructions.value[3][2] = 'R2'
-//     for (let i = 4; i < instructions.value.length; i++) {
-//         instructions.value[i][1] = makeid(2)
-//         instructions.value[i][2] = makeid(2)
-//         instructions.value[i][3] = makeid(2)
-//     }
-// })
 </script>
 
 <template>

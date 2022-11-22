@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const instructions = instList()
-const maxSteps = instructions.value.length + 4
+const maxSteps = ref(instructions.value[instructions.value.length - 1][4] + 5)
 </script>
 
 <template>
@@ -21,7 +21,7 @@ const maxSteps = instructions.value.length + 4
                     v-for="i in maxSteps"
                     class="text-center w-16 hidden"
                 >
-                    <span>{{ i }}</span>
+                    <span :id="'clockNumber' + i">{{ i }}</span>
                 </div>
             </div>
         </div>
@@ -39,8 +39,8 @@ const maxSteps = instructions.value.length + 4
         <div>
             <Mips
                 v-for="inst in instructions.length"
-                :espaçoVazio="Number(instructions[inst - 1][4])"
-                :whereBubble="Number(instructions[inst - 1][5])"
+                :espaçoVazio="instructions[inst - 1][4]"
+                :whereBubble="instructions[inst - 1][5]"
                 class="my-2"
             />
         </div>

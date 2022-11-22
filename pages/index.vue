@@ -1,27 +1,24 @@
 <script setup lang="ts">
-const whatStep = step()
-const instructions = instList()
+let whatStep = step()
+let instructions = instList()
 
-whatStep.value = 0
-
-let ok = ref(false)
+let isSimRunning = ref(false)
 
 function nextStep() {
     const clocks = document.querySelectorAll('#clockNumber')
     const mipss = document.querySelectorAll('#mips')
-    const maxSteps = mipss[mipss.length - 1].children.length
-    if (whatStep.value < maxSteps) {
+
+    const maxSteps = ref(
+        instructions.value[instructions.value.length - 1][4] + 5
+    )
+
+    if (whatStep.value < maxSteps.value) {
         mipss.forEach(mips => {
-            if (mips instanceof HTMLElement) {
-                if (mips.children[whatStep.value]) {
-                    mips.children[whatStep.value].classList.remove('hidden')
-                    mips.children[whatStep.value].classList.add('flex')
-                    // scroll to the last children
-                    // mips.scrollLeft = mips?.children[whatStep.value].offsetLeft
-                }
+            if (mips.children[whatStep.value]) {
+                mips.children[whatStep.value].classList.remove('hidden')
+                mips.children[whatStep.value].classList.add('flex')
             }
         })
-
         clocks[whatStep.value].classList.remove('hidden')
         whatStep.value++
     }
@@ -35,8 +32,6 @@ function prevStep() {
         mipss.forEach(mips => {
             if (mips.children[whatStep.value]) {
                 mips.children[whatStep.value].classList.add('hidden')
-                // scroll to the last children
-                // mips.scrollLeft = mips.children[whatStep.value].offsetLeft
             }
         })
         clocks[whatStep.value].classList.add('hidden')
@@ -44,10 +39,11 @@ function prevStep() {
 }
 
 function tudo() {
-    const mipss = document.querySelectorAll('#mips')
-    const maxSteps = mipss[mipss.length - 1].children.length
+    const maxSteps = ref(
+        instructions.value[instructions.value.length - 1][4] + 5
+    )
 
-    for (let i = whatStep.value; i < maxSteps; i++) nextStep()
+    for (let i = whatStep.value; i < maxSteps.value; i++) nextStep()
 }
 
 function inicio() {
@@ -55,39 +51,34 @@ function inicio() {
 }
 
 function submit(close: Function) {
+    isSimRunning.value = false
     close()
     let bubble = 0
     let foda = 0
     for (let i = 0; i < instructions.value.length; i++) {
-        if (i === 0) {
-            instructions.value[i][4] = (0).toString()
-            instructions.value[i][5] = (0).toString()
-        }
         if (!instructions.value[i + 1]) break
-
         if (
             instructions.value[i][0] === 'LW' &&
             (instructions.value[i][1] === instructions.value[i + 1][2] ||
                 instructions.value[i][1] === instructions.value[i + 1][3])
         ) {
             bubble = 2
-            instructions.value[i + 1].push((i + 1 + foda).toString())
-            instructions.value[i + 1].push(bubble.toString())
+            instructions.value[i + 1][4] = i + 1 + foda
+            instructions.value[i + 1][5] = bubble
         } else {
-            instructions.value[i + 1].push((i + 1 + foda).toString())
-            instructions.value[i + 1].push(bubble.toString())
+            instructions.value[i + 1][4] = i + 1 + foda
+            instructions.value[i + 1][5] = bubble
         }
         if (bubble > 0) {
             bubble--
             if (bubble == 0) foda++
         }
     }
-
-    ok.value = true
+    isSimRunning.value = true
 }
 
 function reset() {
-    ok.value = false
+    isSimRunning.value = false
     whatStep.value = 0
     instructions.value = new Array()
 }
@@ -139,9 +130,9 @@ function reset() {
                 </DisclosurePanel>
             </transition>
         </Disclosure>
-        <div v-if="ok">
+        <div v-if="isSimRunning">
             <SimArea />
-            <div class="flex gap-3 items-center h-6">
+            <div class="flex gap-3 items-center h-6 px-4">
                 <button
                     class="px-9 bg-amber-900 text-white"
                     id="next"
@@ -170,7 +161,17 @@ function reset() {
                 >
                     Inicio
                 </button>
-                <div class="text-xl">Clock atual: {{ whatStep }}</div>
+                <div class="text-xl">
+                    Clock atual: {{ whatStep }}
+                    <span
+                        v-if="
+                            whatStep ===
+                            instructions[instructions.length - 1][4] + 5
+                        "
+                        class="text-red-600 font-bold"
+                        >Fim</span
+                    >
+                </div>
             </div>
         </div>
     </div>
