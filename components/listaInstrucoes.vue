@@ -23,22 +23,22 @@ function makeid(length: number) {
     return result
 }
 
-onMounted(() => {
-    for (let i = 0; i < 17; i++) {
-        addInst()
-        instructions.value[i][0] = 'ADD'
-    }
-    instructions.value[0][0] = 'LW'
-    instructions.value[0][1] = 'R1'
-    instructions.value[1][2] = 'R1'
-    instructions.value[2][1] = 'R2'
-    instructions.value[3][2] = 'R2'
-    for (let i = 4; i < instructions.value.length; i++) {
-        instructions.value[i][1] = makeid(2)
-        instructions.value[i][2] = makeid(2)
-        instructions.value[i][3] = makeid(2)
-    }
-})
+// onMounted(() => {
+//     for (let i = 0; i < 17; i++) {
+//         addInst()
+//         instructions.value[i][0] = 'ADD'
+//     }
+//     instructions.value[0][0] = 'LW'
+//     instructions.value[0][1] = 'R1'
+//     instructions.value[1][2] = 'R1'
+//     instructions.value[2][1] = 'R2'
+//     instructions.value[3][2] = 'R2'
+//     for (let i = 4; i < instructions.value.length; i++) {
+//         instructions.value[i][1] = makeid(2)
+//         instructions.value[i][2] = makeid(2)
+//         instructions.value[i][3] = makeid(2)
+//     }
+// })
 </script>
 
 <template>
