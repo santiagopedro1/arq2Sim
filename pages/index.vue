@@ -12,12 +12,16 @@ function nextStep() {
     const maxSteps = mipss[mipss.length - 1].children.length
     if (whatStep.value < maxSteps) {
         mipss.forEach(mips => {
-            if (mips.children[whatStep.value]) {
-                mips.children[whatStep.value].classList.remove('hidden')
-                mips.children[whatStep.value].classList.add('flex')
-                // scroll to the last children
+            if (mips instanceof HTMLElement) {
+                if (mips.children[whatStep.value]) {
+                    mips.children[whatStep.value].classList.remove('hidden')
+                    mips.children[whatStep.value].classList.add('flex')
+                    // scroll to the last children
+                    // mips.scrollLeft = mips?.children[whatStep.value].offsetLeft
+                }
             }
         })
+
         clocks[whatStep.value].classList.remove('hidden')
         whatStep.value++
     }
@@ -32,6 +36,7 @@ function prevStep() {
             if (mips.children[whatStep.value]) {
                 mips.children[whatStep.value].classList.add('hidden')
                 // scroll to the last children
+                // mips.scrollLeft = mips.children[whatStep.value].offsetLeft
             }
         })
         clocks[whatStep.value].classList.add('hidden')
@@ -51,6 +56,33 @@ function inicio() {
 
 function submit(close: Function) {
     close()
+    let bubble = 0
+    let foda = 0
+    for (let i = 0; i < instructions.value.length; i++) {
+        if (i === 0) {
+            instructions.value[i][4] = (0).toString()
+            instructions.value[i][5] = (0).toString()
+        }
+        if (!instructions.value[i + 1]) break
+
+        if (
+            instructions.value[i][0] === 'LW' &&
+            (instructions.value[i][1] === instructions.value[i + 1][2] ||
+                instructions.value[i][1] === instructions.value[i + 1][3])
+        ) {
+            bubble = 2
+            instructions.value[i + 1].push((i + 1 + foda).toString())
+            instructions.value[i + 1].push(bubble.toString())
+        } else {
+            instructions.value[i + 1].push((i + 1 + foda).toString())
+            instructions.value[i + 1].push(bubble.toString())
+        }
+        if (bubble > 0) {
+            bubble--
+            if (bubble == 0) foda++
+        }
+    }
+
     ok.value = true
 }
 
@@ -87,7 +119,7 @@ function reset() {
             >
                 <DisclosurePanel
                     v-slot="{ close }"
-                    class="bg-slate-800 text-white px-4 py-8 flex flex-col gap-4"
+                    class="bg-slate-800 text-white px-4 py-4 flex flex-col gap-4"
                 >
                     <ListaInstrucoes />
                     <div class="flex gap-4">

@@ -9,6 +9,36 @@ function removeInst(inst: Array<string>) {
     const index = instructions.value.indexOf(inst)
     instructions.value.splice(index, 1)
 }
+
+function makeid(length: number) {
+    let result = ''
+    let characters =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    let charactersLength = characters.length
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(
+            Math.floor(Math.random() * charactersLength)
+        )
+    }
+    return result
+}
+
+onMounted(() => {
+    for (let i = 0; i < 17; i++) {
+        addInst()
+        instructions.value[i][0] = 'ADD'
+    }
+    instructions.value[0][0] = 'LW'
+    instructions.value[0][1] = 'R1'
+    instructions.value[1][2] = 'R1'
+    instructions.value[2][1] = 'R2'
+    instructions.value[3][2] = 'R2'
+    for (let i = 4; i < instructions.value.length; i++) {
+        instructions.value[i][1] = makeid(2)
+        instructions.value[i][2] = makeid(2)
+        instructions.value[i][3] = makeid(2)
+    }
+})
 </script>
 
 <template>
@@ -32,10 +62,11 @@ function removeInst(inst: Array<string>) {
                     class="w-16"
                     v-model="instructions[inst - 1][0]"
                 >
-                    <option value="add">ADD</option>
-                    <option value="sub">SUB</option>
-                    <option value="mul">MUL</option>
-                    <option value="div">DIV</option>
+                    <option value="ADD">ADD</option>
+                    <option value="SUB">SUB</option>
+                    <option value="MUL">MUL</option>
+                    <option value="DIV">DIV</option>
+                    <option value="LW">LW</option>
                 </select>
                 <input
                     type="text"
@@ -50,13 +81,27 @@ function removeInst(inst: Array<string>) {
                     class="w-10"
                     v-model="instructions[inst - 1][2]"
                 />
-                <span class="text-white">,</span>
+                <span
+                    v-if="instructions[inst - 1][0] != 'LW'"
+                    class="text-white"
+                    >,</span
+                >
+                <span
+                    v-else
+                    class="text-white"
+                    >(</span
+                >
                 <input
                     type="text"
                     :name="`reg2-${inst}`"
                     class="w-10"
                     v-model="instructions[inst - 1][3]"
                 />
+                <span
+                    v-if="instructions[inst - 1][0] == 'LW'"
+                    class="text-white"
+                    >)</span
+                >
                 <button @click="removeInst(instructions[inst - 1])">
                     <MinusCircleIcon
                         class="h-6 w-6 text-white hover:text-cyan-500"

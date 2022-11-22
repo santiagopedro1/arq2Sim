@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
-    prevInst: number
-    whereBubble: 0 | 1 | 2 | 3 | 4
+    espaçoVazio: number
+    whereBubble: number
 }>()
 </script>
 
@@ -11,7 +11,7 @@ defineProps<{
         class="flex gap-3"
     >
         <div
-            v-for="i in prevInst"
+            v-for="i in espaçoVazio"
             id="espaço vazio"
             class="hidden w-16 h-16"
         ></div>

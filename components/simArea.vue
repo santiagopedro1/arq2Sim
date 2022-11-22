@@ -39,8 +39,8 @@ const maxSteps = instructions.value.length + 4
         <div>
             <Mips
                 v-for="inst in instructions.length"
-                :prevInst="inst - 1"
-                :whereBubble="0"
+                :espaçoVazio="Number(instructions[inst - 1][4])"
+                :whereBubble="Number(instructions[inst - 1][5])"
                 class="my-2"
             />
         </div>
