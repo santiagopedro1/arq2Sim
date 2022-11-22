@@ -12,17 +12,15 @@ Abra a aba de configuração e adicione as instruções para a simulação. Apó
 
 ## Limitações
 
-1. O simulador ainda não lida com conflitos de dados;
-2. O simulador só permite instruções aritméticas;
-3. O simulador não possui uma maneira de adicionar instruções manualmente.
-
-<!-- todos -->
+1. ~~O simulador ainda não lida com conflitos de dados;~~
+2. ~~O simulador só permite instruções aritméticas;~~
+3. O simulador não possui uma maneira de adicionar instruções por texto.
 
 ## TODOs
 
 -   [ ] Resolver as limitações;
-    -   [ ] 1;
-    -   [ ] 2;
+    -   [x] 1;
+    -   [x] 2;
     -   [ ] 3;
--   [ ] Melhorar a interface;
+-   [x] Melhorar a interface;
 -   [ ] Melhorar o estilo MIPS na simulação;
