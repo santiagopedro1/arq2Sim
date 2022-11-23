@@ -1,8 +1,8 @@
 <script setup lang="ts">
-let whatStep = step()
-let instructions = instList()
+const whatStep = step()
+const instructions = instList()
 
-let isSimRunning = ref(false)
+const isSimRunning = ref(false)
 
 function nextStep() {
     const clocks = document.querySelectorAll('#clockNumber')
@@ -51,30 +51,16 @@ function inicio() {
 }
 
 function submit(close: Function) {
-    isSimRunning.value = false
-    close()
-    let bubble = 0
-    let foda = 0
-    for (let i = 0; i < instructions.value.length; i++) {
-        if (!instructions.value[i + 1]) break
-        if (
-            instructions.value[i][0] === 'LW' &&
-            (instructions.value[i][1] === instructions.value[i + 1][2] ||
-                instructions.value[i][1] === instructions.value[i + 1][3])
-        ) {
-            bubble = 2
-            instructions.value[i + 1][4] = i + 1 + foda
-            instructions.value[i + 1][5] = bubble
-        } else {
-            instructions.value[i + 1][4] = i + 1 + foda
-            instructions.value[i + 1][5] = bubble
-        }
-        if (bubble > 0) {
-            bubble--
-            if (bubble == 0) foda++
-        }
+    const isValid = areInstructionsValid(instructions.value)
+    if (isValid === true) {
+        isSimRunning.value = false
+        whatStep.value = 0
+        close()
+        checkForConflict(instructions.value)
+        isSimRunning.value = true
+    } else {
+        window.alert(isValid.message)
     }
-    isSimRunning.value = true
 }
 
 function reset() {
@@ -134,28 +120,28 @@ function reset() {
             <SimArea />
             <div class="flex gap-3 items-center h-6 px-4">
                 <button
-                    class="px-9 bg-amber-900 text-white"
+                    class="px-9 bg-fuchsia-900 text-white"
                     id="next"
                     @click="prevStep"
                 >
                     Prev
                 </button>
                 <button
-                    class="px-9 bg-amber-900 text-white"
+                    class="px-9 bg-fuchsia-900 text-white"
                     id="next"
                     @click="nextStep"
                 >
                     Next
                 </button>
                 <button
-                    class="px-9 bg-amber-900 text-white"
+                    class="px-9 bg-fuchsia-900 text-white"
                     id="next"
                     @click="tudo"
                 >
                     Tudo
                 </button>
                 <button
-                    class="px-9 bg-amber-900 text-white"
+                    class="px-9 bg-fuchsia-900 text-white"
                     id="next"
                     @click="inicio"
                 >

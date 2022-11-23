@@ -5,15 +5,16 @@ const maxSteps = ref(instructions.value[instructions.value.length - 1][4] + 5)
 
 <template>
     <div
-        class="grid grid-cols-[32px,1fr] grid-rows-[48px,1fr] px-2 h-[calc(100vh-70px)] w-[calc(100% - 6)] mx-3 overflow-scroll border-2 border-red-600"
+        class="grid grid-cols-[32px,1fr] grid-rows-[24px,1fr] h-[calc(100vh-70px)] w-[calc(100% - 6)] mx-3 overflow-scroll"
     >
-        <div class="flex flex-col items-center">
+        <div
+            class="flex flex-col items-center sticky left-0 top-0 bg-white text-transparent"
+        >
             <span>clk</span>
-            <span>inst</span>
         </div>
         <div
             id="clocks"
-            class="flex bg-white"
+            class="bg-white sticky left-0 top-0"
         >
             <div class="flex gap-3">
                 <div
@@ -21,19 +22,28 @@ const maxSteps = ref(instructions.value[instructions.value.length - 1][4] + 5)
                     v-for="i in maxSteps"
                     class="text-center w-16 hidden"
                 >
-                    <span :id="'clockNumber' + i">{{ i }}</span>
+                    <span :id="'clockNumber' + i">C{{ i }}</span>
                 </div>
             </div>
         </div>
-        <div class="flex flex-col mt-2 items-center">
+        <div class="mt-2 pl-auto sticky left-0 top-0 bg-white">
             <div
                 v-for="inst in instructions.length"
-                class="h-16 mb-2 flex items-center"
-                :title="`i${inst}: ${instructions[inst - 1][0].toUpperCase()} ${
-                    instructions[inst - 1][1]
-                }, ${instructions[inst - 1][2]}, ${instructions[inst - 1][3]}`"
+                class="h-16 mb-2 flex items-center pl-2"
             >
-                <span class="cursor-default">i{{ inst }}</span>
+                <Popover class="relative">
+                    <PopoverButton>i{{ inst }}</PopoverButton>
+                    <PopoverPanel
+                        class="absolute z-10 bg-fuchsia-900 text-white px-2 py-3"
+                    >
+                        <div class="flex gap-1">
+                            <span>{{ instructions[inst - 1][0] }}</span>
+                            <span>{{ instructions[inst - 1][1] }},</span>
+                            <span>{{ instructions[inst - 1][2] }},</span>
+                            <span>{{ instructions[inst - 1][3] }}</span>
+                        </div>
+                    </PopoverPanel>
+                </Popover>
             </div>
         </div>
         <div>

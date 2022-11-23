@@ -23,4 +23,5 @@ Abra a aba de configuração e adicione as instruções para a simulação. Apó
     -   [x] 2;
     -   [ ] 3;
 -   [x] Melhorar a interface;
+-   [ ] Editar as instruções sem precisar resetar as instruções;
 -   [ ] Melhorar o estilo MIPS na simulação;
