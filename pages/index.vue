@@ -1,16 +1,13 @@
 <script setup lang="ts">
 const whatStep = step()
 const instructions = instList()
+const maxSteps = maxStep()
 
 const isSimRunning = ref(false)
 
 function nextStep() {
     const clocks = document.querySelectorAll('#clockNumber')
     const mipss = document.querySelectorAll('#mips')
-
-    const maxSteps = ref(
-        instructions.value[instructions.value.length - 1][4] + 5
-    )
 
     if (whatStep.value < maxSteps.value) {
         mipss.forEach(mips => {
@@ -39,10 +36,6 @@ function prevStep() {
 }
 
 function tudo() {
-    const maxSteps = ref(
-        instructions.value[instructions.value.length - 1][4] + 5
-    )
-
     for (let i = whatStep.value; i < maxSteps.value; i++) nextStep()
 }
 
@@ -57,6 +50,11 @@ function submit(close: Function) {
         whatStep.value = 0
         close()
         checkForConflict(instructions.value)
+        maxSteps.value =
+            instructions.value[instructions.value.length - 1][4] +
+            instructions.value[instructions.value.length - 1][5] +
+            5
+        console.log(maxSteps.value)
         isSimRunning.value = true
     } else {
         window.alert(isValid.message)
@@ -150,10 +148,7 @@ function reset() {
                 <div class="text-xl">
                     Clock atual: {{ whatStep }}
                     <span
-                        v-if="
-                            whatStep ===
-                            instructions[instructions.length - 1][4] + 5
-                        "
+                        v-if="whatStep === maxSteps"
                         class="text-red-600 font-bold"
                         >Fim</span
                     >

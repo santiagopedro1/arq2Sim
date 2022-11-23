@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const instructions = instList()
-const maxSteps = ref(instructions.value[instructions.value.length - 1][4] + 5)
+const maxSteps = maxStep()
 </script>
 
 <template>

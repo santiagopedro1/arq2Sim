@@ -14,19 +14,21 @@ function removeInst(
     }
 }
 
-// onMounted(() => {
-//     for (let i = 0; i < 21; i++) {
-//         addInst()
-//         instructions.value[i][0] = 'ADD'
-//     }
-//     instructions.value[0][1] = 'R1'
-//     instructions.value[0][2] = 'R2'
-//     instructions.value[0][3] = 'R2'
-//     instructions.value[1][0] = 'LW'
-//     instructions.value[1][1] = 'R4'
-//     instructions.value[1][2] = 'R3'
-//     instructions.value[1][3] = 'a'
-// })
+onMounted(() => {
+    for (let i = 0; i < 3; i++) addInst()
+    instructions.value[0][0] = 'LW'
+    instructions.value[0][1] = 'R1'
+    instructions.value[0][2] = 'R2'
+    instructions.value[0][3] = '0'
+    instructions.value[1][0] = 'ADD'
+    instructions.value[1][1] = 'R2'
+    instructions.value[1][2] = 'R1'
+    instructions.value[1][3] = 'R3'
+    instructions.value[2][0] = 'ADD'
+    instructions.value[2][1] = 'R7'
+    instructions.value[2][2] = 'R8'
+    instructions.value[2][3] = 'R9'
+})
 </script>
 
 <template>
