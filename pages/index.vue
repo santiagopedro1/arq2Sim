@@ -3,6 +3,7 @@ const currentStep = step()
 const instructions = instList()
 const maxSteps = maxStep()
 
+const erro = ref()
 const isSimRunning = ref(false)
 
 function nextStep() {
@@ -44,9 +45,9 @@ function inicio() {
 }
 
 function submit(close: Function) {
-    close()
     const isValid = areInstructionsValid(instructions.value)
     if (isValid === true) {
+        close()
         inicio()
         checkForConflict(instructions.value)
         maxSteps.value =
@@ -55,7 +56,7 @@ function submit(close: Function) {
             5
         isSimRunning.value = true
     } else {
-        window.alert(isValid.message)
+        erro.value = isValid.message
     }
 }
 
@@ -148,10 +149,50 @@ function reset() {
                     <span
                         v-if="currentStep === maxSteps"
                         class="text-red-600 font-bold"
-                        >Fim</span
+                    >
+                        Fim!</span
                     >
                 </div>
             </div>
+        </div>
+        <div id="modal">
+            <Dialog
+                as="div"
+                class="relative z-10"
+                :open="typeof erro === 'string'"
+            >
+                <div class="fixed inset-0 bg-black bg-opacity-25" />
+                <div class="fixed inset-0 overflow-y-auto">
+                    <div
+                        class="flex min-h-full items-center justify-center p-4 text-center"
+                    >
+                        <DialogPanel
+                            class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+                        >
+                            <DialogTitle
+                                as="h3"
+                                class="text-xl font-extrabold leading-6 text-red-600"
+                            >
+                                ERRO
+                            </DialogTitle>
+                            <div class="mt-2">
+                                <p class="text-lg text-black">
+                                    {{ erro }}
+                                </p>
+                            </div>
+                            <div class="mt-4">
+                                <button
+                                    type="button"
+                                    class="inline-flex justify-center rounded-md border border-transparent bg-fuchsia-900 px-4 py-2 text-white"
+                                    @click="erro = false"
+                                >
+                                    Ok
+                                </button>
+                            </div>
+                        </DialogPanel>
+                    </div>
+                </div>
+            </Dialog>
         </div>
     </div>
 </template>

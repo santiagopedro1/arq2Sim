@@ -9,8 +9,8 @@ export const checkForConflict = (instructions: Array<Instruction>) => {
                 instructions[i][1] === instructions[i + 1][3])
         ) {
             bubble = 2
-            instructions[i + 1][4] = i + 1 + comp
-            instructions[i + 1][5] = bubble
+            instructions[i + 1][4] += i + 1 + comp
+            instructions[i + 1][5] += bubble
         } else {
             instructions[i + 1][4] = i + 1 + comp
             instructions[i + 1][5] = bubble
@@ -32,12 +32,12 @@ export const areInstructionsValid = (instructions: Array<Instruction>) => {
 
         if (instructions[i][0] === 'LW' && isNaN(Number(instructions[i][3])))
             return Error(
-                `Erro na instrução ${i + 1}\nO deslocamento não é um número`
+                `Erro na instrução ${i + 1}. O deslocamento não é um número`
             )
         for (let j = 0; j < 4; j++) {
             if (Boolean(instructions[i][j]) === false)
                 return Error(
-                    `Erro na instrução ${i + 1}\nCampo ${j + 1} está vazio`
+                    `Erro na instrução ${i + 1}. Campo ${j + 1} está vazio`
                 )
         }
     }
