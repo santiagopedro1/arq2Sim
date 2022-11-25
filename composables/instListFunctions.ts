@@ -23,6 +23,7 @@ export const checkForConflict = (instructions: Array<Instruction>) => {
 }
 
 export const areInstructionsValid = (instructions: Array<Instruction>) => {
+    if (instructions.length === 0) return Error('Não há instruções')
     for (let i = 0; i < instructions.length; i++) {
         instructions[i][0] = instructions[i][0].toUpperCase()
         instructions[i][1] = instructions[i][1].toUpperCase()
