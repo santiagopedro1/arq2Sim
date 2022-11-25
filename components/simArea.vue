@@ -34,9 +34,23 @@ const maxSteps = maxStep()
                 <Popover class="relative">
                     <PopoverButton>i{{ inst }}</PopoverButton>
                     <PopoverPanel
-                        class="absolute z-10 bg-fuchsia-900 text-white px-2 py-3"
+                        class="absolute left-6 bottom-[-12px] z-10 bg-fuchsia-900 text-white px-2 py-3"
                     >
-                        <div class="flex gap-1">
+                        <div
+                            v-if="instructions[inst - 1][0] === 'LW'"
+                            class="flex gap-1"
+                        >
+                            <span>i{{ inst }}:</span>
+                            <span>{{ instructions[inst - 1][0] }}</span>
+                            <span>{{ instructions[inst - 1][1] }},</span>
+                            <span>{{ instructions[inst - 1][2] }}</span>
+                            <span>({{ instructions[inst - 1][3] }})</span>
+                        </div>
+                        <div
+                            v-else
+                            class="flex gap-1"
+                        >
+                            <span>i{{ inst }}:</span>
                             <span>{{ instructions[inst - 1][0] }}</span>
                             <span>{{ instructions[inst - 1][1] }},</span>
                             <span>{{ instructions[inst - 1][2] }},</span>

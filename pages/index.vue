@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const whatStep = step()
+const currentStep = step()
 const instructions = instList()
 const maxSteps = maxStep()
 
@@ -9,52 +9,50 @@ function nextStep() {
     const clocks = document.querySelectorAll('#clockNumber')
     const mipss = document.querySelectorAll('#mips')
 
-    if (whatStep.value < maxSteps.value) {
+    if (currentStep.value < maxSteps.value) {
         mipss.forEach(mips => {
-            if (mips.children[whatStep.value]) {
-                mips.children[whatStep.value].classList.remove('hidden')
-                mips.children[whatStep.value].classList.add('flex')
+            if (mips.children[currentStep.value]) {
+                mips.children[currentStep.value].classList.remove('hidden')
+                mips.children[currentStep.value].classList.add('flex')
             }
         })
-        clocks[whatStep.value].classList.remove('hidden')
-        whatStep.value++
+        clocks[currentStep.value].classList.remove('hidden')
+        currentStep.value++
     }
 }
 
 function prevStep() {
     const clocks = document.querySelectorAll('#clockNumber')
     const mipss = document.querySelectorAll('#mips')
-    if (whatStep.value > 0) {
-        whatStep.value--
+    if (currentStep.value > 0) {
+        currentStep.value--
         mipss.forEach(mips => {
-            if (mips.children[whatStep.value]) {
-                mips.children[whatStep.value].classList.add('hidden')
+            if (mips.children[currentStep.value]) {
+                mips.children[currentStep.value].classList.add('hidden')
             }
         })
-        clocks[whatStep.value].classList.add('hidden')
+        clocks[currentStep.value].classList.add('hidden')
     }
 }
 
 function tudo() {
-    for (let i = whatStep.value; i < maxSteps.value; i++) nextStep()
+    for (let i = currentStep.value; i < maxSteps.value; i++) nextStep()
 }
 
 function inicio() {
-    for (let i = whatStep.value; i != 0; i--) prevStep()
+    for (let i = currentStep.value; i != 0; i--) prevStep()
 }
 
 function submit(close: Function) {
+    close()
     const isValid = areInstructionsValid(instructions.value)
     if (isValid === true) {
-        isSimRunning.value = false
-        whatStep.value = 0
-        close()
+        inicio()
         checkForConflict(instructions.value)
         maxSteps.value =
             instructions.value[instructions.value.length - 1][4] +
             instructions.value[instructions.value.length - 1][5] +
             5
-        console.log(maxSteps.value)
         isSimRunning.value = true
     } else {
         window.alert(isValid.message)
@@ -63,7 +61,7 @@ function submit(close: Function) {
 
 function reset() {
     isSimRunning.value = false
-    whatStep.value = 0
+    currentStep.value = 0
     instructions.value = new Array()
 }
 </script>
@@ -146,9 +144,9 @@ function reset() {
                     Inicio
                 </button>
                 <div class="text-xl">
-                    Clock atual: {{ whatStep }}
+                    Clock atual: {{ currentStep }}
                     <span
-                        v-if="whatStep === maxSteps"
+                        v-if="currentStep === maxSteps"
                         class="text-red-600 font-bold"
                         >Fim</span
                     >

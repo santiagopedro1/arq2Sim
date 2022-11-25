@@ -1,18 +1,57 @@
 <script setup lang="ts">
-let instructions = instList()
+const instructions = instList()
 
 function addInst() {
     instructions.value.push(['', '', '', '', 0, 0])
 }
 
-function removeInst(
-    inst: [string, string, string, string | number, number, number]
-) {
+function removeInst(inst: Instruction) {
     if (inst.length === 6) {
         const index = instructions.value.indexOf(inst)
         instructions.value.splice(index, 1)
     }
 }
+
+// onMounted(() => {
+//     function rand(inst: Instruction) {
+//         inst[0] = 'ADD'
+//         inst[1] = 'r' + Math.floor(Math.random() * 32)
+//         inst[2] = 'r' + Math.floor(Math.random() * 32)
+//         inst[3] = 'r' + Math.floor(Math.random() * 32)
+//     }
+//     for (let i = 0; i < 7; i++) addInst()
+//     instructions.value.forEach((inst, index) => {
+//         switch (index) {
+//             case 0:
+//                 inst[0] = 'LW'
+//                 inst[1] = 'r1'
+//                 inst[2] = 'r2'
+//                 inst[3] = '0'
+//                 break
+//             case 1:
+//                 inst[0] = 'ADD'
+//                 inst[1] = 'r3'
+//                 inst[2] = 'r1'
+//                 inst[3] = 'r0'
+//                 break
+//             case 3:
+//                 inst[0] = 'LW'
+//                 inst[1] = 'r1'
+//                 inst[2] = 'r2'
+//                 inst[3] = '0'
+//                 break
+//             case 4:
+//                 inst[0] = 'ADD'
+//                 inst[1] = 'r3'
+//                 inst[2] = 'r1'
+//                 inst[3] = 'r0'
+//                 break
+//             default:
+//                 rand(inst)
+//                 break
+//         }
+//     })
+// })
 </script>
 
 <template>

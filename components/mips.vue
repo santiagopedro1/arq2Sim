@@ -25,7 +25,7 @@ defineProps<{
         <div
             v-if="whereBubble == 1"
             id="bubble"
-            class="border border-cyan-400 hidden flex-col items-center justify-center w-16 h-16"
+            class="border-2 border-cyan-400 hidden flex-col items-center justify-center w-16 h-16"
         >
             <span class="font-bold">Bolha</span>
         </div>
@@ -39,7 +39,7 @@ defineProps<{
         <div
             v-if="whereBubble == 2"
             id="bubble"
-            class="border border-cyan-400 hidden flex-col items-center justify-center w-16 h-16"
+            class="border-2 border-cyan-400 hidden flex-col items-center justify-center w-16 h-16"
         >
             <span class="font-bold">Bolha</span>
         </div>
@@ -53,7 +53,7 @@ defineProps<{
         <div
             v-if="whereBubble == 3"
             id="bubble"
-            class="border border-cyan-400 hidden flex-col items-center justify-center w-16 h-16"
+            class="border-2 border-cyan-400 hidden flex-col items-center justify-center w-16 h-16"
         >
             <span class="font-bold">Bolha</span>
         </div>
@@ -67,7 +67,7 @@ defineProps<{
         <div
             v-if="whereBubble == 4"
             id="bubble"
-            class="border border-cyan-400 hidden flex-col items-center justify-center w-16 h-16"
+            class="border-2 border-cyan-400 hidden flex-col items-center justify-center w-16 h-16"
         >
             <span class="font-bold">Bolha</span>
         </div>

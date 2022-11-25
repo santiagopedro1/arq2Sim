@@ -1,7 +1,5 @@
 export const instList = () => {
-    return useState<
-        Array<[string, string, string, string | number, number, number]>
-    >('instList', () => [])
+    return useState<Array<Instruction>>('instList', () => [])
 }
 
 export const step = () => {
