@@ -1,7 +1,6 @@
 <script setup lang="ts">
 let maxSteps: number
 let insts: InstructionList
-let isOpen = ref(false)
 
 const isSimRunning = ref(false)
 
