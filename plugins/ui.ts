@@ -8,7 +8,9 @@ import {
     Dialog,
     DialogPanel,
     DialogTitle,
-    DialogDescription
+    DialogDescription,
+    TransitionRoot,
+    TransitionChild
 } from '@headlessui/vue'
 import {
     ChevronDownIcon,
@@ -27,6 +29,9 @@ export default defineNuxtPlugin(nuxtApp => {
     nuxtApp.vueApp.component('DialogPanel', DialogPanel)
     nuxtApp.vueApp.component('DialogTitle', DialogTitle)
     nuxtApp.vueApp.component('DialogDescription', DialogDescription)
+
+    nuxtApp.vueApp.component('TransitionRoot', TransitionRoot)
+    nuxtApp.vueApp.component('TransitionChild', TransitionChild)
 
     nuxtApp.vueApp.component('ChevronDownIcon', ChevronDownIcon)
     nuxtApp.vueApp.component('PlusCircleIcon', PlusCircleIcon)

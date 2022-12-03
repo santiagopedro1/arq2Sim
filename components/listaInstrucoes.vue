@@ -12,6 +12,10 @@ class Instrução implements BaseInstruction {
     }
 }
 
+const errorModal = {
+    isOpen: ref(false),
+    message: ref('')
+}
 const instruções = instList()
 
 const emit = defineEmits(['submit', 'reset'])
@@ -26,19 +30,19 @@ function removeInst(inst: BaseInstruction) {
 }
 
 function submit() {
-    let realInst: InstructionList = []
-    instruções.value.forEach(inst => {
-        let a = createInstruction(inst)
-        if (!(a instanceof Error)) {
-            realInst.push(a)
-        }
-    })
-    realInst = checkForConflict(realInst)
-    emit('submit', realInst)
+    let result: InstructionList | Error
+    result = createInstructions(instruções.value)
+    if (result instanceof Error) {
+        errorModal.isOpen.value = true
+        errorModal.message.value = result.message
+    } else {
+        result = checkForConflict(result)
+        emit('submit', result)
+    }
 }
 
 function reset() {
-    instruções.value = [new Instrução()]
+    instruções.value = []
     emit('reset')
 }
 </script>
@@ -145,5 +149,10 @@ function reset() {
                 Submit
             </button>
         </div>
+        <ErrorModal
+            v-if="errorModal.isOpen.value"
+            :open="errorModal.isOpen.value"
+            :message="errorModal.message.value"
+        />
     </div>
 </template>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 let maxSteps: number
 let insts: InstructionList
+let isOpen = ref(false)
 
 const isSimRunning = ref(false)
 
@@ -57,7 +58,6 @@ function resetSim() {
         <div>
             <SimArea
                 v-if="isSimRunning"
-                :is="isSimRunning"
                 :instructions="insts"
                 :maxSteps="maxSteps"
             />

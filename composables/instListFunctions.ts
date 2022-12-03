@@ -12,35 +12,50 @@ export const isAllowedOP = (OP: any): OP is AllowedOP => {
     return isMemOP(OP) || isULAOP(OP)
 }
 
-export const createInstruction = (
-    inst: BaseInstruction
-): Instruction | Error => {
-    if (isMemOP(inst.OPcode)) {
-        if (!isNaN(Number(inst.OP1))) {
-            const OP1 = Number(inst.OP1)
-            return {
-                OPcode: inst.OPcode,
-                RD: inst.RD.toUpperCase(),
-                Shift: OP1,
-                Operando: inst.OP2.toUpperCase(),
-                LugarBolha: 0,
-                Espaços: 0
+export const createInstructions = (
+    instList: BaseInstruction[]
+): InstructionList | Error => {
+    const instructions: InstructionList = []
+    for (let i = 0; i < instList.length; i++) {
+        const inst = instList[i]
+        if (Object.values(inst).includes(''))
+            return new Error(
+                `Erro na instrução ${i + 1}. Instrução contém campos vazios.`
+            )
+        if (isAllowedOP(inst.OPcode)) {
+            if (isMemOP(inst.OPcode)) {
+                if (isNaN(Number(inst.OP1)))
+                    return new Error(
+                        `Erro na instrução ${
+                            i + 1
+                        }. Deslocamento deve ser um número.`
+                    )
+                else
+                    instructions.push({
+                        OPcode: inst.OPcode,
+                        RD: inst.RD,
+                        Shift: Number(inst.OP1),
+                        Operando: inst.OP2,
+                        LugarBolha: 0,
+                        Espaços: 0
+                    })
+            } else {
+                instructions.push({
+                    OPcode: inst.OPcode,
+                    RD: inst.RD,
+                    Operando1: inst.OP1,
+                    Operando2: inst.OP2,
+                    LugarBolha: 0,
+                    Espaços: 0
+                })
             }
         } else {
-            return new Error('Invalid instruction')
+            return new Error(
+                `Erro na instrução ${i + 1}. Operação inválida: ${inst.OPcode}.`
+            )
         }
-    } else if (isULAOP(inst.OPcode)) {
-        return {
-            OPcode: inst.OPcode,
-            RD: inst.RD.toUpperCase(),
-            Operando1: inst.OP1.toUpperCase() as string,
-            Operando2: inst.OP2.toUpperCase(),
-            LugarBolha: 0,
-            Espaços: 0
-        }
-    } else {
-        return new Error('Invalid instruction')
     }
+    return instructions
 }
 
 export const checkForConflict = (instructions: InstructionList) => {
