@@ -31,6 +31,13 @@ function removeInst(inst: BaseInstruction) {
 
 function submit() {
     let result: InstructionList | Error
+    // uppercase all instructions
+    instruções.value.forEach(inst => {
+        inst.OPcode = inst.OPcode.toUpperCase() as AllowedOP
+        inst.RD = inst.RD.toUpperCase()
+        inst.OP1 = inst.OP1.toUpperCase()
+        inst.OP2 = inst.OP2.toUpperCase()
+    })
     result = createInstructions(instruções.value)
     if (result instanceof Error) {
         errorModal.isOpen.value = true
