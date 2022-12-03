@@ -1,133 +1,149 @@
 <script setup lang="ts">
-const instructions = instList()
-
-function addInst() {
-    instructions.value.push(['', '', '', '', 0, 0])
-}
-
-function removeInst(inst: Instruction) {
-    if (inst.length === 6) {
-        const index = instructions.value.indexOf(inst)
-        instructions.value.splice(index, 1)
+class Instrução implements BaseInstruction {
+    OPcode: AllowedOP | ''
+    RD: string
+    OP1: string
+    OP2: string
+    constructor() {
+        this.OPcode = ''
+        this.RD = ''
+        this.OP1 = ''
+        this.OP2 = ''
     }
 }
 
-// onMounted(() => {
-//     function rand(inst: Instruction) {
-//         inst[0] = 'ADD'
-//         inst[1] = 'r' + Math.floor(Math.random() * 32)
-//         inst[2] = 'r' + Math.floor(Math.random() * 32)
-//         inst[3] = 'r' + Math.floor(Math.random() * 32)
-//     }
-//     for (let i = 0; i < 7; i++) addInst()
-//     instructions.value.forEach((inst, index) => {
-//         switch (index) {
-//             case 0:
-//                 inst[0] = 'LW'
-//                 inst[1] = 'r1'
-//                 inst[2] = 'r2'
-//                 inst[3] = '0'
-//                 break
-//             case 1:
-//                 inst[0] = 'ADD'
-//                 inst[1] = 'r3'
-//                 inst[2] = 'r1'
-//                 inst[3] = 'r0'
-//                 break
-//             case 3:
-//                 inst[0] = 'LW'
-//                 inst[1] = 'r1'
-//                 inst[2] = 'r2'
-//                 inst[3] = '0'
-//                 break
-//             case 4:
-//                 inst[0] = 'ADD'
-//                 inst[1] = 'r3'
-//                 inst[2] = 'r1'
-//                 inst[3] = 'r0'
-//                 break
-//             default:
-//                 rand(inst)
-//                 break
-//         }
-//     })
-// })
+const instruções = instList()
+
+const emit = defineEmits(['submit', 'reset'])
+
+function addInst() {
+    instruções.value.push(new Instrução())
+}
+
+function removeInst(inst: BaseInstruction) {
+    const index = instruções.value.indexOf(inst)
+    instruções.value.splice(index, 1)
+}
+
+function submit() {
+    let realInst: InstructionList = []
+    instruções.value.forEach(inst => {
+        let a = createInstruction(inst)
+        if (!(a instanceof Error)) {
+            realInst.push(a)
+        }
+    })
+    realInst = checkForConflict(realInst)
+    emit('submit', realInst)
+}
+
+function reset() {
+    instruções.value = [new Instrução()]
+    emit('reset')
+}
 </script>
 
 <template>
-    <ol id="instlist">
-        <li
-            v-for="inst in instructions.length"
-            class="mb-4"
-        >
-            <div
-                class="text-black gap-3 flex"
-                :id="`inst${inst}`"
+    <div>
+        <ol id="instlist">
+            <li
+                v-for="inst in instruções.length"
+                class="mb-4"
             >
-                <label
-                    :for="`operation${inst}`"
-                    class="self-center text-white"
+                <div
+                    class="text-black gap-3 flex"
+                    :id="`inst${inst}`"
                 >
-                    Instrução {{ inst }}
-                </label>
-                <select
-                    :id="`operation${inst}`"
-                    class="w-16"
-                    v-model="instructions[inst - 1][0]"
-                >
-                    <option value="ADD">ADD</option>
-                    <option value="SUB">SUB</option>
-                    <option value="MUL">MUL</option>
-                    <option value="DIV">DIV</option>
-                    <option value="LW">LW</option>
-                </select>
-                <input
-                    type="text"
-                    :name="`regSaida${inst}`"
-                    class="w-10"
-                    v-model="instructions[inst - 1][1]"
-                />
-                <span class="text-white">,</span>
-                <input
-                    type="text"
-                    :name="`reg1-${inst}`"
-                    class="w-10"
-                    v-model="instructions[inst - 1][2]"
-                />
-                <span
-                    v-if="instructions[inst - 1][0] != 'LW'"
-                    class="text-white"
-                    >,</span
-                >
-                <span
-                    v-else
-                    class="text-white"
-                    >(</span
-                >
-                <input
-                    type="text"
-                    :name="`reg2-${inst}`"
-                    class="w-10"
-                    v-model="instructions[inst - 1][3]"
-                />
-                <span
-                    v-if="instructions[inst - 1][0] == 'LW'"
-                    class="text-white"
-                    >)</span
-                >
-                <button @click="removeInst(instructions[inst - 1])">
-                    <MinusCircleIcon
-                        class="h-6 w-6 text-white hover:text-cyan-500"
+                    <label
+                        :for="`operation${inst}`"
+                        class="self-center text-white"
+                    >
+                        Instrução {{ inst }}
+                    </label>
+                    <select
+                        :id="`operation${inst}`"
+                        class="w-16"
+                        v-model="instruções[inst - 1].OPcode"
+                    >
+                        <optgroup label="ULA">
+                            <option
+                                v-for="op in ULAOPs"
+                                :value="op"
+                            >
+                                {{ op }}
+                            </option>
+                        </optgroup>
+                        <optgroup label="MEM">
+                            <option
+                                v-for="op in MemOPs"
+                                :value="op"
+                            >
+                                {{ op }}
+                            </option>
+                        </optgroup>
+                    </select>
+                    <input
+                        type="text"
+                        :name="`regSaida${inst}`"
+                        class="w-10 text-center"
+                        v-model="instruções[inst - 1].RD"
+                    />
+                    <span class="text-white">,</span>
+                    <input
+                        type="text"
+                        :name="`reg1-${inst}`"
+                        class="w-10 text-center"
+                        v-model="instruções[inst - 1].OP1"
+                    />
+                    <span
+                        v-if="isMemOP(instruções[inst - 1].OPcode)"
+                        class="text-white"
+                        >(</span
+                    >
+                    <span
+                        v-else
+                        class="text-white"
+                        >,</span
+                    >
+                    <input
+                        type="text"
+                        :name="`reg2-${inst}`"
+                        class="w-10 text-center"
+                        v-model="instruções[inst - 1].OP2"
+                    />
+                    <span
+                        v-if="isMemOP(instruções[inst - 1].OPcode)"
+                        class="text-white"
+                        >)</span
+                    >
+                    <button @click="removeInst(instruções[inst - 1])">
+                        <MinusCircleIcon
+                            class="h-6 w-6 text-white hover:text-cyan-500"
+                        />
+                    </button>
+                </div>
+            </li>
+            <li>
+                <button @click="addInst">
+                    <PlusCircleIcon
+                        class="w-8 h-8 text-white hover:text-cyan-500"
                     />
                 </button>
-            </div>
-        </li>
-        <li>
-            <button @click="addInst">
-                <PlusCircleIcon
-                    class="w-8 h-8 text-white hover:text-cyan-500"
-                />
+            </li>
+        </ol>
+        <div class="flex gap-4">
+            <button
+                @click="reset"
+                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-min"
+            >
+                Reset
             </button>
-        </li>
-    </ol>
+            <button
+                @click="submit"
+                class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded w-min"
+            >
+                Submit
+            </button>
+        </div>
+    </div>
 </template>
