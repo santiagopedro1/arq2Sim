@@ -15,6 +15,7 @@ export const isAllowedOP = (OP: any): OP is AllowedOP => {
 export const createInstructions = (
     instList: BaseInstruction[]
 ): InstructionList | Error => {
+    if (instList.length === 0) return new Error('Não há instruções')
     const instructions: InstructionList = []
     for (let i = 0; i < instList.length; i++) {
         const inst = instList[i]

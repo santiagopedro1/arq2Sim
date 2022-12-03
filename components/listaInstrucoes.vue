@@ -18,7 +18,7 @@ const errorModal = {
 }
 const instruções = instList()
 
-const emit = defineEmits(['submit', 'reset'])
+const emit = defineEmits(['rodar', 'reset'])
 
 function addInst() {
     instruções.value.push(new Instrução())
@@ -37,7 +37,7 @@ function submit() {
         errorModal.message.value = result.message
     } else {
         result = checkForConflict(result)
-        emit('submit', result)
+        emit('rodar', result)
     }
 }
 
@@ -146,11 +146,12 @@ function reset() {
                 @click="submit"
                 class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded w-min"
             >
-                Submit
+                Rodar
             </button>
         </div>
         <ErrorModal
             v-if="errorModal.isOpen.value"
+            @close="errorModal.isOpen.value = false"
             :open="errorModal.isOpen.value"
             :message="errorModal.message.value"
         />

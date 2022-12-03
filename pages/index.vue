@@ -48,7 +48,7 @@ function resetSim() {
                     class="bg-slate-800 text-white px-4 py-4 flex flex-col gap-4"
                 >
                     <ListaInstrucoes
-                        @submit="rodarSim"
+                        @rodar="rodarSim"
                         @reset="resetSim"
                     />
                 </DisclosurePanel>

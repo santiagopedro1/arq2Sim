@@ -148,16 +148,16 @@ watch(
             <button
                 class="px-9 bg-fuchsia-900 text-white"
                 id="next"
-                @click="tudo"
+                @click="inicio"
             >
-                Tudo
+                Inicio
             </button>
             <button
                 class="px-9 bg-fuchsia-900 text-white"
                 id="next"
-                @click="inicio"
+                @click="tudo"
             >
-                Inicio
+                Tudo
             </button>
             <div class="text-xl">
                 Clock atual: {{ currentStep }}
