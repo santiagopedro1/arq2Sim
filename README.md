@@ -8,7 +8,16 @@ O simulador está hospedado no endereco: https://arq2-sim.vercel.app/
 
 ## Como usar
 
-Abra a aba de configuração e adicione as instruções para a simulação. Após isso, clique em simular. O simulador irá executar as instruções e é possível avançar e retroceder entre os ciclos de clock pelos botões de navegação(Prev e Next).
+Abra a aba de configuração e adicione as instruções para a simulação. Após isso, clique em rodar. O simulador irá executar as instruções e é possível avançar e retroceder entre os ciclos de clock pelos botões de navegação(Prev e Next).
+
+## Como rodar localmente
+
+Para rodar o simulador localmente, é necessário ter o NodeJS instalado. Após isso, execute os seguintes comandos:
+
+```bash
+npm install
+npm run dev
+```
 
 ## Limitações
 
@@ -23,5 +32,5 @@ Abra a aba de configuração e adicione as instruções para a simulação. Apó
     -   [x] 2;
     -   [ ] 3;
 -   [x] Melhorar a interface;
--   [ ] Editar as instruções sem precisar resetar as instruções;
+-   [x] Editar as instruções sem precisar resetar as instruções;
 -   [ ] Melhorar o estilo MIPS na simulação;
